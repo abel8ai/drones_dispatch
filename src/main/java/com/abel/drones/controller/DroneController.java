@@ -3,7 +3,6 @@ package com.abel.drones.controller;
 import com.abel.drones.entities.Drone;
 import com.abel.drones.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +26,11 @@ public class DroneController {
     @GetMapping (path = "id={droneId}")
     public Drone getDroneById(@PathVariable("droneId")Long droneId){
         return droneService.getDroneById(droneId);
+    }
+
+    @GetMapping(path = "batlevel/id={droneId}")
+    public int getDroneBatteryLevelById(@PathVariable("droneId")Long droneId){
+        return droneService.getDroneBatteryLevelById(droneId);
     }
 
     @PostMapping

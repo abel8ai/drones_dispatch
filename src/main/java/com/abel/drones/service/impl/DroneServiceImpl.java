@@ -34,6 +34,11 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
+    public int getDroneBatteryLevelById(Long id) {
+        return getDroneById(id).getBatteryCapacity();
+    }
+
+    @Override
     public Drone registerDrone(Drone drone) {
         Optional<Drone> droneOptional = droneRepository.findDroneBySerialNumber(drone.getSerialNumber());
         if (droneOptional.isPresent())
