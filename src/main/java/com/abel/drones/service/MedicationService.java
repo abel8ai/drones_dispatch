@@ -11,7 +11,7 @@ public interface MedicationService {
 
     Medication getMedicationById(Long id);
 
-    Medication AddMedication(Medication drone);
+    Medication addMedication(Medication drone);
 
     void removeMedicationById(Long id);
 

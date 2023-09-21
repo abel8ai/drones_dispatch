@@ -36,7 +36,7 @@ public class MedicationServiceImpl implements MedicationService {
     }
 
     @Override
-    public Medication AddMedication(Medication medication) {
+    public Medication addMedication(Medication medication) {
         Optional<Medication> medOptional = medicationRepository.findMedicationByCode(medication.getCode());
         if (medOptional.isPresent())
             throw new IllegalStateException("Code already exists");
