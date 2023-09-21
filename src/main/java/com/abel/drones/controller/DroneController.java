@@ -4,18 +4,15 @@ import com.abel.drones.entities.Drone;
 import com.abel.drones.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/drone")
+@RequestMapping(path = "api/v1/drones")
 public class DroneController {
 
-    private DroneService droneService;
+    private final DroneService droneService;
 
     @Autowired
     public DroneController(DroneService droneService) {
@@ -27,9 +24,18 @@ public class DroneController {
         return droneService.getAllDrones();
     }
 
-    @GetMapping (path = "uid={userId}")
-    public Drone getUserById(@PathVariable("droneId")Long droneId){
+    @GetMapping (path = "id={droneId}")
+    public Drone getDroneById(@PathVariable("droneId")Long droneId){
         return droneService.getDroneById(droneId);
     }
 
+    @PostMapping
+    public void registerDrone(@RequestBody Drone drone){
+        droneService.registerDrone(drone);
+    }
+
+    @DeleteMapping(path = "remove/id={droneId}")
+    public void removeDroneById(@PathVariable("droneId") Long id){
+        droneService.removeDroneById(id);
+    }
 }

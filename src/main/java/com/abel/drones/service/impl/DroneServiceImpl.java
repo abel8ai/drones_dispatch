@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class DroneServiceImpl implements DroneService {
@@ -24,16 +26,26 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public Drone getDroneById(Long id) {
-        return null;
+        Optional<Drone> droneOptional = droneRepository.findById(id);
+        if (!droneOptional.isPresent())
+            throw new NoSuchElementException("Incorrect ID");
+        return droneOptional.get();
+
     }
 
     @Override
     public Drone registerDrone(Drone drone) {
-        return null;
+        Optional<Drone> droneOptional = droneRepository.findDroneBySerialNumber(drone.getSerialNumber());
+        if (droneOptional.isPresent())
+            throw new IllegalStateException("Serial number already exists");
+        return droneRepository.save(drone);
     }
 
     @Override
     public void removeDroneById(Long id) {
-
+        Optional<Drone> droneOptional = droneRepository.findById(id);
+        if (!droneOptional.isPresent())
+            throw new NoSuchElementException("Incorrect ID");
+        droneRepository.deleteById(id);
     }
 }
