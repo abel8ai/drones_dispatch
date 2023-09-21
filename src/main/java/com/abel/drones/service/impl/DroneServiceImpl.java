@@ -53,8 +53,7 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public void removeDroneById(Long id) {
-        Optional<Drone> droneOptional = droneRepository.findById(id);
-        if (!droneOptional.isPresent())
+        if (!droneRepository.existsById(id))
             throw new NoSuchElementException("Incorrect ID");
         droneRepository.deleteById(id);
     }
