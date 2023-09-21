@@ -33,6 +33,11 @@ public class DroneController {
         return droneService.getDroneBatteryLevelById(droneId);
     }
 
+    @GetMapping(path = "idle")
+    public List<Drone> getIdleDrones(){
+        return droneService.getIdleDrones();
+    }
+
     @PostMapping
     public void registerDrone(@RequestBody Drone drone){
         droneService.registerDrone(drone);

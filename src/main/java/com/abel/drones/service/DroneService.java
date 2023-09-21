@@ -12,6 +12,8 @@ public interface DroneService {
 
     int getDroneBatteryLevelById(Long id);
 
+    List<Drone> getIdleDrones();
+
     Drone registerDrone(Drone drone);
 
     void removeDroneById(Long id);

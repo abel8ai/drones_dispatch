@@ -39,6 +39,11 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
+    public List<Drone> getIdleDrones() {
+        return droneRepository.findDroneByStateEquals(Drone.StateType.IDLE).get();
+    }
+
+    @Override
     public Drone registerDrone(Drone drone) {
         Optional<Drone> droneOptional = droneRepository.findDroneBySerialNumber(drone.getSerialNumber());
         if (droneOptional.isPresent())
