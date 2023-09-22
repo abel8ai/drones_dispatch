@@ -1,52 +1,47 @@
 package com.abel.drones.repository;
 
 import com.abel.drones.entities.Drone;
-
+import com.abel.drones.entities.Medication;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class DroneRepositoryTest {
+class MedicationRepositoryTest {
 
     @Autowired
-    private DroneRepository droneRepository;
+    private MedicationRepository medicationRepository;
 
     @AfterEach
     void tearDown() {
-        droneRepository.deleteAll();
+        medicationRepository.deleteAll();
     }
 
     @Test
-    void itShouldCheckWhenDroneSerialNumberExists() {
+    void itShouldCheckWhenMedicationCodeExists() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
-        droneRepository.save(drone);
+        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        medicationRepository.save(medication);
 
         // when
-        Optional<Drone> expected = droneRepository.findDroneBySerialNumber("qwer1234");
+        Optional<Medication> expected = medicationRepository.findMedicationByCode("sdsdsd");
 
         // then
         assertThat(expected).isPresent();
     }
 
     @Test
-    void itShouldCheckWhenDroneSerialNumberDoesNotExists() {
+    void itShouldCheckWhenMedicationCodeNotExists() {
         // given
         // when
-        Optional<Drone> expected = droneRepository.findDroneBySerialNumber("erty2345");
+        Optional<Medication> expected = medicationRepository.findMedicationByCode("sdsdsd");
 
         // then
         assertThat(expected).isNotPresent();
