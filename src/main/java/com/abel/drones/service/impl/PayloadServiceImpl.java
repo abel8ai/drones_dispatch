@@ -36,13 +36,13 @@ public class PayloadServiceImpl implements PayloadService {
 
     @Override
     public Payload createPayload(Payload payload) {
-        Optional<Drone> droneOptional = droneRepository.findById(payload.getDrone().getId());
-        if (!droneOptional.isPresent())
-            throw new IllegalStateException("Drone does not exist");
+
+        if (!droneRepository.existsById(payload.getDrone().getId()))
+            throw new NoSuchElementException("Drone does not exist");
         for (PayloadItem p: payload.getPayloadItems()){
-            Optional<Medication> medOptional = medicationRepository.findById(p.getMedication().getId());
-            if (!medOptional.isPresent())
-                throw new IllegalStateException("Medication does not exist");
+
+            if (!medicationRepository.existsById(p.getMedication().getId()))
+                throw new NoSuchElementException("Medication does not exist");
         }
         return payloadRepository.save(payload);
     }

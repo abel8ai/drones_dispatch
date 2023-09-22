@@ -1,6 +1,5 @@
 package com.abel.drones.service;
 
-import com.abel.drones.entities.Drone;
 import com.abel.drones.entities.Medication;
 import com.abel.drones.repository.MedicationRepository;
 import com.abel.drones.service.impl.MedicationServiceImpl;
