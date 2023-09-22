@@ -1,6 +1,7 @@
 package com.abel.drones.controller;
 
 import com.abel.drones.entities.Drone;
+import com.abel.drones.entities.Medication;
 import com.abel.drones.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,11 @@ public class DroneController {
     @GetMapping(path = "batlevel/id={droneId}")
     public int getDroneBatteryLevelById(@PathVariable("droneId")Long droneId){
         return droneService.getDroneBatteryLevelById(droneId);
+    }
+
+    @GetMapping(path = "loadedmeds/id={droneId}")
+    public List<Medication> getMedicationLoadedByDrone(@PathVariable("droneId")Long droneId){
+        return droneService.getMedicationLoadedByDrone(droneId);
     }
 
     @GetMapping(path = "idle")

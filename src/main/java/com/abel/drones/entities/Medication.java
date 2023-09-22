@@ -1,6 +1,7 @@
 package com.abel.drones.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -16,6 +17,9 @@ public class Medication {
     private double weight;
     private String code;
     private String image;
+
+    @OneToMany(mappedBy="medication")
+    private Set<PayloadItem> payloadItems;
 
     public Medication() {
     }
@@ -66,5 +70,13 @@ public class Medication {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<PayloadItem> getPayloadItems() {
+        return payloadItems;
+    }
+
+    public void setPayloadItems(Set<PayloadItem> payloadItems) {
+        this.payloadItems = payloadItems;
     }
 }

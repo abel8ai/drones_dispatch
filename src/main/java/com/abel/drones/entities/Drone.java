@@ -1,6 +1,7 @@
 package com.abel.drones.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -25,6 +26,9 @@ public class Drone {
     public enum StateType {IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING}
     @Enumerated(EnumType.STRING)
     private StateType state;
+
+    @OneToMany(mappedBy="drone")
+    private Set<Payload> payloads;
 
     public Drone() {
 
@@ -85,5 +89,13 @@ public class Drone {
 
     public void setState(StateType state) {
         this.state = state;
+    }
+
+    public Set<Payload> getPayloads() {
+        return payloads;
+    }
+
+    public void setPayloads(Set<Payload> payloads) {
+        this.payloads = payloads;
     }
 }
