@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/payloads")
+@RequestMapping(path = "api/v2/payloads")
 public class PayloadController {
 
     private final PayloadService payloadService;
@@ -24,7 +24,7 @@ public class PayloadController {
     }
 
 
-    @PostMapping
+    @PostMapping(path = "create")
     public void cretePayload(@RequestBody Payload payload){
         payloadService.createPayload(payload);
     }

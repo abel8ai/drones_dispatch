@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/medications")
+@RequestMapping(path = "api/v2/medications")
 public class MedicationController {
 
     private final MedicationService medicationService;
@@ -23,17 +23,17 @@ public class MedicationController {
         return medicationService.getAllMedications();
     }
 
-    @GetMapping (path = "id={medId}")
+    @GetMapping (path = "{medId}")
     public Medication getMedicationById(@PathVariable("medId")Long medId){
         return medicationService.getMedicationById(medId);
     }
 
-    @PostMapping
+    @PostMapping(path = "create")
     public void addMedication(@RequestBody Medication medication){
         medicationService.addMedication(medication);
     }
 
-    @DeleteMapping(path = "remove/id={medId}")
+    @DeleteMapping(path = "{medId}/remove")
     public void removeMedicationById(@PathVariable("medId") Long id){
         medicationService.removeMedicationById(id);
     }
