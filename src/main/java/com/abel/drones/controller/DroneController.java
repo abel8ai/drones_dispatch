@@ -53,4 +53,10 @@ public class DroneController {
     public void removeDroneById(@PathVariable("droneId") Long id){
         droneService.removeDroneById(id);
     }
+
+    @PutMapping(path = "{droneId}/state")
+    public void changeDroneState(@PathVariable("droneId") Long droneId,
+                                    @RequestParam Drone.StateType state){
+        droneService.changeDroneState(droneId,state);
+    }
 }

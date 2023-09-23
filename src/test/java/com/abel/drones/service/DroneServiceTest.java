@@ -67,7 +67,7 @@ class DroneServiceTest {
     }
 
     @Test
-    void willThrowWhenSerialNumberExists() {
+    void willThrowExceptionWhenSerialNumberExists() {
         // given
         Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
                 100, Drone.StateType.IDLE);
@@ -99,7 +99,7 @@ class DroneServiceTest {
     }
 
     @Test
-    void willThrowWhenRemoveDroneNotFound() {
+    void willThrowExceptionWhenRemoveDroneNotFound() {
         // given
         long id = 10;
         given(droneRepository.existsById(id))
@@ -111,5 +111,44 @@ class DroneServiceTest {
                 .hasMessageContaining("Incorrect ID");
 
         verify(droneRepository, never()).deleteById(any());
+    }
+
+    @Test
+    void willThrowExceptionWhenUpdateDroneNotFound() {
+        // given
+        long id = 10;
+        given(droneRepository.existsById(id))
+                .willReturn(false);
+        // when
+        // then
+        assertThatThrownBy(() -> droneService.changeDroneState(id, Drone.StateType.IDLE))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("Incorrect ID");
+
+        verify(droneRepository, never()).save(any());
+    }
+
+    @Test
+    void canChangeDroneState() {
+        // given
+        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
+                100, Drone.StateType.IDLE);
+        droneRepository.save(drone);
+        long id = 2;
+        given(droneRepository.existsById(id))
+                .willReturn(true);
+        // when
+        droneService.changeDroneState(id, Drone.StateType.IDLE);
+
+        // then
+        ArgumentCaptor<Drone> droneArgumentCaptor =
+                ArgumentCaptor.forClass(Drone.class);
+
+        verify(droneRepository)
+                .save(droneArgumentCaptor.capture());
+
+        Drone capturedDrone = droneArgumentCaptor.getValue();
+
+        assertThat(capturedDrone).isEqualTo(drone);
     }
 }

@@ -1,12 +1,8 @@
 package com.abel.drones.schedulingtasks;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import com.abel.drones.controller.DroneController;
 import com.abel.drones.entities.Drone;
-import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.service.DroneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

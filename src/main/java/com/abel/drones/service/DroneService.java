@@ -19,5 +19,7 @@ public interface DroneService {
 
     void removeDroneById(Long id);
 
+    void changeDroneState(Long id, Drone.StateType state);
+
     List<Medication> getMedicationLoadedByDrone(Long id);
 }

@@ -9,6 +9,7 @@ import com.abel.drones.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -60,6 +61,18 @@ public class DroneServiceImpl implements DroneService {
         if (!droneRepository.existsById(id))
             throw new NoSuchElementException("Incorrect ID");
         droneRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void changeDroneState(Long id, Drone.StateType state) {
+
+        if (!droneRepository.existsById(id))
+            throw new NoSuchElementException("Incorrect ID");
+        else {
+            Optional<Drone> droneOptional = droneRepository.findById(id);
+            droneOptional.ifPresent(drone -> drone.setState(state));
+        }
     }
 
     @Override
