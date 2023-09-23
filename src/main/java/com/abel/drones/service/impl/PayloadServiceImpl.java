@@ -51,6 +51,7 @@ public class PayloadServiceImpl implements PayloadService {
         if (totalWeight > payload.getDrone().getWeighLimit())
             throw new BadRequestException("Weight limit exceeded");
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADED);
+        payload.setStatus(Payload.StatusType.ON_ROUTE);
         return payloadRepository.save(payload);
     }
 }

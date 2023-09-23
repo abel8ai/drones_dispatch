@@ -56,6 +56,7 @@ public class DroneServiceImpl implements DroneService {
             throw new BadRequestException("Serial number already exists");
         if (!isValidData(drone))
             throw new BadRequestException("Invalid drone data");
+        drone.setState(Drone.StateType.IDLE);
         return droneRepository.save(drone);
     }
 

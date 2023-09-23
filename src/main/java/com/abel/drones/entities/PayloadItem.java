@@ -16,13 +16,13 @@ public class PayloadItem {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="payload_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
     private Payload payload;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="medication_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
     private Medication medication;
 

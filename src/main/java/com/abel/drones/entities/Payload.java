@@ -20,7 +20,7 @@ public class Payload {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="drone_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
     private Drone drone;
 
