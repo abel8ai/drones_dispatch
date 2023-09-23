@@ -1,21 +1,20 @@
 package com.abel.drones.service.impl;
 
-import com.abel.drones.entities.Drone;
 import com.abel.drones.entities.Medication;
-import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.repository.MedicationRepository;
 import com.abel.drones.service.MedicationService;
+import com.abel.drones.service.exceptions.BadRequestException;
+import com.abel.drones.service.exceptions.MedicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class MedicationServiceImpl implements MedicationService {
 
-    private MedicationRepository medicationRepository;
+    private final MedicationRepository medicationRepository;
 
     @Autowired
     public MedicationServiceImpl(MedicationRepository medicationRepository) {
@@ -30,7 +29,7 @@ public class MedicationServiceImpl implements MedicationService {
     public Medication getMedicationById(Long id) {
         Optional<Medication> medOptional = medicationRepository.findById(id);
         if (!medOptional.isPresent())
-            throw new NoSuchElementException("Incorrect ID");
+            throw new MedicationNotFoundException("Incorrect ID");
         return medOptional.get();
 
     }
@@ -39,14 +38,14 @@ public class MedicationServiceImpl implements MedicationService {
     public Medication addMedication(Medication medication) {
         Optional<Medication> medOptional = medicationRepository.findMedicationByCode(medication.getCode());
         if (medOptional.isPresent())
-            throw new IllegalStateException("Code already exists");
+            throw new BadRequestException("Code already exists");
         return medicationRepository.save(medication);
     }
 
     @Override
     public void removeMedicationById(Long id) {
         if (!medicationRepository.existsById(id))
-            throw new NoSuchElementException("Incorrect ID");
+            throw new MedicationNotFoundException("Incorrect ID");
         medicationRepository.deleteById(id);
     }
 }

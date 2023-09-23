@@ -6,13 +6,14 @@ import com.abel.drones.entities.Payload;
 import com.abel.drones.entities.PayloadItem;
 import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.service.DroneService;
+import com.abel.drones.service.exceptions.BadRequestException;
+import com.abel.drones.service.exceptions.DroneNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,7 @@ public class DroneServiceImpl implements DroneService {
     public Drone getDroneById(Long id) {
         Optional<Drone> droneOptional = droneRepository.findById(id);
         if (!droneOptional.isPresent())
-            throw new NoSuchElementException("Incorrect ID");
+            throw new DroneNotFoundException("Incorrect ID");
         return droneOptional.get();
 
     }
@@ -52,14 +53,14 @@ public class DroneServiceImpl implements DroneService {
     public Drone registerDrone(Drone drone) {
         Optional<Drone> droneOptional = droneRepository.findDroneBySerialNumber(drone.getSerialNumber());
         if (droneOptional.isPresent())
-            throw new IllegalStateException("Serial number already exists");
+            throw new BadRequestException("Serial number already exists");
         return droneRepository.save(drone);
     }
 
     @Override
     public void removeDroneById(Long id) {
         if (!droneRepository.existsById(id))
-            throw new NoSuchElementException("Incorrect ID");
+            throw new DroneNotFoundException("Incorrect ID");
         droneRepository.deleteById(id);
     }
 
@@ -68,7 +69,7 @@ public class DroneServiceImpl implements DroneService {
     public void changeDroneState(Long id, Drone.StateType state) {
 
         if (!droneRepository.existsById(id))
-            throw new NoSuchElementException("Incorrect ID");
+            throw new DroneNotFoundException("Incorrect ID");
         else {
             Optional<Drone> droneOptional = droneRepository.findById(id);
             droneOptional.ifPresent(drone -> drone.setState(state));
@@ -80,7 +81,7 @@ public class DroneServiceImpl implements DroneService {
         List<Medication> medications = new ArrayList<>();
         Optional<Drone> droneOptional = droneRepository.findById(id);
         if (!droneOptional.isPresent())
-            throw new NoSuchElementException("Incorrect ID");
+            throw new DroneNotFoundException("Incorrect ID");
         else {
             Drone drone = droneOptional.get();
             Optional<Payload> payloadOptional = drone.getPayloads().stream()

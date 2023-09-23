@@ -2,8 +2,9 @@ package com.abel.drones.service;
 
 import com.abel.drones.entities.Drone;
 import com.abel.drones.repository.DroneRepository;
+import com.abel.drones.service.exceptions.BadRequestException;
+import com.abel.drones.service.exceptions.DroneNotFoundException;
 import com.abel.drones.service.impl.DroneServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +12,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,7 +21,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class DroneServiceTest {
@@ -78,7 +76,7 @@ class DroneServiceTest {
         // when
         // then
         assertThatThrownBy(() -> droneService.registerDrone(drone))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("Serial number already exists");
 
         verify(droneRepository, never()).save(any());
@@ -107,7 +105,7 @@ class DroneServiceTest {
         // when
         // then
         assertThatThrownBy(() -> droneService.removeDroneById(id))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(DroneNotFoundException.class)
                 .hasMessageContaining("Incorrect ID");
 
         verify(droneRepository, never()).deleteById(any());
@@ -122,7 +120,7 @@ class DroneServiceTest {
         // when
         // then
         assertThatThrownBy(() -> droneService.changeDroneState(id, Drone.StateType.IDLE))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(DroneNotFoundException.class)
                 .hasMessageContaining("Incorrect ID");
 
         verify(droneRepository, never()).save(any());

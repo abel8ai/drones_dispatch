@@ -2,6 +2,8 @@ package com.abel.drones.service;
 
 import com.abel.drones.entities.Medication;
 import com.abel.drones.repository.MedicationRepository;
+import com.abel.drones.service.exceptions.BadRequestException;
+import com.abel.drones.service.exceptions.MedicationNotFoundException;
 import com.abel.drones.service.impl.MedicationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,7 +75,7 @@ class MedicationServiceTest {
         // when
         // then
         assertThatThrownBy(() -> medicationService.addMedication(medication))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("Code already exists");
 
         verify(medicationRepository, never()).save(any());
@@ -102,7 +104,7 @@ class MedicationServiceTest {
         // when
         // then
         assertThatThrownBy(() -> medicationService.removeMedicationById(id))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(MedicationNotFoundException.class)
                 .hasMessageContaining("Incorrect ID");
 
         verify(medicationRepository, never()).deleteById(any());

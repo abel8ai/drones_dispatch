@@ -7,6 +7,8 @@ import com.abel.drones.entities.PayloadItem;
 import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.repository.MedicationRepository;
 import com.abel.drones.repository.PayloadRepository;
+import com.abel.drones.service.exceptions.DroneNotFoundException;
+import com.abel.drones.service.exceptions.MedicationNotFoundException;
 import com.abel.drones.service.impl.PayloadServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +21,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -105,7 +105,7 @@ class PayloadServiceTest {
         // when
         // then
         assertThatThrownBy(() -> payloadService.createPayload(payload))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(DroneNotFoundException.class)
                 .hasMessageContaining("Drone does not exist");
 
         verify(payloadRepository, never()).save(any());
@@ -134,7 +134,7 @@ class PayloadServiceTest {
         // when
         // then
         assertThatThrownBy(() -> payloadService.createPayload(payload))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(MedicationNotFoundException.class)
                 .hasMessageContaining("Medication does not exist");
 
         verify(payloadRepository, never()).save(any());
