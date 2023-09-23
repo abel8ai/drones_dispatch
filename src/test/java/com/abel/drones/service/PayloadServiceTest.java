@@ -8,7 +8,6 @@ import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.repository.MedicationRepository;
 import com.abel.drones.repository.PayloadRepository;
 import com.abel.drones.service.impl.PayloadServiceImpl;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
