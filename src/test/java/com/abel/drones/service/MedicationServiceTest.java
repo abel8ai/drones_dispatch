@@ -47,7 +47,7 @@ class MedicationServiceTest {
     @Test
     void canAddMedication() {
         // given
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        Medication medication = new Medication("med1", 4,"DHDHHS","dcfdfsdf");
 
         // when
         medicationService.addMedication(medication);
@@ -67,7 +67,7 @@ class MedicationServiceTest {
     @Test
     void willThrowWhenCodeExists() {
         // given
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        Medication medication = new Medication("med1", 4,"sdsdsd","dcfdfsdf");
 
         given(medicationRepository.findMedicationByCode(anyString()))
                 .willReturn(java.util.Optional.of(medication));

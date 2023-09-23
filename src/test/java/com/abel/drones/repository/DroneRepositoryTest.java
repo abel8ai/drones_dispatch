@@ -31,8 +31,8 @@ class DroneRepositoryTest {
     @Test
     void itShouldCheckWhenDroneSerialNumberExists() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
         droneRepository.save(drone);
 
         // when

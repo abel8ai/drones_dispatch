@@ -46,8 +46,8 @@ class DroneServiceTest {
     @Test
     void canRegisterDrone() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
 
         // when
         droneService.registerDrone(drone);
@@ -67,8 +67,8 @@ class DroneServiceTest {
     @Test
     void willThrowExceptionWhenSerialNumberExists() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
 
         given(droneRepository.findDroneBySerialNumber(anyString()))
                 .willReturn(java.util.Optional.of(drone));
@@ -129,8 +129,8 @@ class DroneServiceTest {
     @Test
     void canChangeDroneState() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
         droneRepository.save(drone);
         long id = 2;
         given(droneRepository.existsById(id))

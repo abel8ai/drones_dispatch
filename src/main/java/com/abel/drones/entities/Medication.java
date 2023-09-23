@@ -24,8 +24,7 @@ public class Medication {
     public Medication() {
     }
 
-    public Medication(Long id, String name, double weight, String code, String image) {
-        this.id = id;
+    public Medication(String name, double weight, String code, String image) {
         this.name = name;
         this.weight = weight;
         this.code = code;

@@ -27,7 +27,7 @@ class MedicationRepositoryTest {
     @Test
     void itShouldCheckWhenMedicationCodeExists() {
         // given
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        Medication medication = new Medication("med1", 4,"sdsdsd","dcfdfsdf");
         medicationRepository.save(medication);
 
         // when

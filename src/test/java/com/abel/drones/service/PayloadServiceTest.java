@@ -55,10 +55,10 @@ class PayloadServiceTest {
     @Test
     void canCreatePayload() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
         Payload payload = new Payload(1L, Payload.StatusType.ON_ROUTE, drone);
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        Medication medication = new Medication("med1", 4,"JHKJHK","dcfdfsdf");
         PayloadItem payloadItem = new PayloadItem(1L,payload,medication,3);
         Set<PayloadItem> payloadItemList = new HashSet<>();
         payloadItemList.add(payloadItem);
@@ -68,8 +68,10 @@ class PayloadServiceTest {
         given(droneService.getDroneById(payload.getDrone().getId()))
                 .willReturn(drone);
 
-        given(medicationRepository.existsById(payload.getDrone().getId()))
-                .willReturn(true);
+        for (PayloadItem p: payload.getPayloadItems()){
+            given(medicationRepository.existsById(p.getMedication().getId()))
+                    .willReturn(true);
+        }
 
         // when
         payloadService.createPayload(payload);
@@ -89,10 +91,10 @@ class PayloadServiceTest {
     @Test
     void willThrowExceptionIfTheMedicationDoesntExists() {
         // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
+        Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
+                100);
         Payload payload = new Payload(1L, Payload.StatusType.ON_ROUTE, drone);
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
+        Medication medication = new Medication("med1", 4,"HJKJHK","dcfdfsdf");
         PayloadItem payloadItem = new PayloadItem(1L,payload,medication,3);
         Set<PayloadItem> payloadItemList = new HashSet<>();
         payloadItemList.add(payloadItem);

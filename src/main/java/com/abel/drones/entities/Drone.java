@@ -34,13 +34,11 @@ public class Drone {
 
     }
 
-    public Drone(Long id, String serialNumber, ModelType model, double weighLimit, int batteryCapacity, StateType state) {
-        this.id = id;
+    public Drone(String serialNumber, ModelType model, double weighLimit, int batteryCapacity) {
         this.serialNumber = serialNumber;
         this.model = model;
         this.weighLimit = weighLimit;
         this.batteryCapacity = batteryCapacity;
-        this.state = state;
     }
 
     public Long getId() {
