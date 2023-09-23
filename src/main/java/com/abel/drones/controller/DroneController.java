@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/drones")
+@RequestMapping(path = "api/v2/drones")
 public class DroneController {
 
     private final DroneService droneService;
@@ -24,17 +24,17 @@ public class DroneController {
         return droneService.getAllDrones();
     }
 
-    @GetMapping (path = "id={droneId}")
+    @GetMapping (path = "{droneId}")
     public Drone getDroneById(@PathVariable("droneId")Long droneId){
         return droneService.getDroneById(droneId);
     }
 
-    @GetMapping(path = "batlevel/id={droneId}")
+    @GetMapping(path = "{droneId}/battery-level")
     public int getDroneBatteryLevelById(@PathVariable("droneId")Long droneId){
         return droneService.getDroneBatteryLevelById(droneId);
     }
 
-    @GetMapping(path = "loadedmeds/id={droneId}")
+    @GetMapping(path = "{droneId}/loaded-meds")
     public List<Medication> getMedicationLoadedByDrone(@PathVariable("droneId")Long droneId){
         return droneService.getMedicationLoadedByDrone(droneId);
     }
@@ -44,17 +44,17 @@ public class DroneController {
         return droneService.getIdleDrones();
     }
 
-    @PostMapping
+    @PostMapping(path = "create")
     public void registerDrone(@RequestBody Drone drone){
         droneService.registerDrone(drone);
     }
 
-    @DeleteMapping(path = "remove/id={droneId}")
+    @DeleteMapping(path = "{droneId}/remove")
     public void removeDroneById(@PathVariable("droneId") Long id){
         droneService.removeDroneById(id);
     }
 
-    @PutMapping(path = "{droneId}/state")
+    @PutMapping(path = "{droneId}/change-state")
     public void changeDroneState(@PathVariable("droneId") Long droneId,
                                     @RequestParam Drone.StateType state){
         droneService.changeDroneState(droneId,state);
