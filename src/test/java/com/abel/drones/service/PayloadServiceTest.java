@@ -34,14 +34,14 @@ class PayloadServiceTest {
     @Mock
     private MedicationRepository medicationRepository;
     @Mock
-    private DroneRepository droneRepository;
+    private DroneService droneService;
 
     private PayloadService payloadService;
 
 
     @BeforeEach
     void setUp() {
-        payloadService = new PayloadServiceImpl(payloadRepository,droneRepository,medicationRepository);
+        payloadService = new PayloadServiceImpl(payloadRepository,droneService,medicationRepository);
     }
 
 
@@ -63,11 +63,10 @@ class PayloadServiceTest {
         Set<PayloadItem> payloadItemList = new HashSet<>();
         payloadItemList.add(payloadItem);
         payload.setPayloadItems(payloadItemList);
-        droneRepository.save(drone);
         medicationRepository.save(medication);
 
-        given(droneRepository.existsById(payload.getDrone().getId()))
-                .willReturn(true);
+        given(droneService.getDroneById(payload.getDrone().getId()))
+                .willReturn(drone);
 
         given(medicationRepository.existsById(payload.getDrone().getId()))
                 .willReturn(true);
@@ -88,30 +87,6 @@ class PayloadServiceTest {
     }
 
     @Test
-    void willThrowExceptionIfTheDroneDoesntExists() {
-        // given
-        Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
-                100, Drone.StateType.IDLE);
-        Payload payload = new Payload(1L, Payload.StatusType.ON_ROUTE, drone);
-        Medication medication = new Medication(1L,"med1", 4,"sdsdsd","dcfdfsdf");
-        PayloadItem payloadItem = new PayloadItem(1L,payload,medication,3);
-        Set<PayloadItem> payloadItemList = new HashSet<>();
-        payloadItemList.add(payloadItem);
-        payload.setPayloadItems(payloadItemList);
-
-        given(droneRepository.existsById(payload.getDrone().getId()))
-                .willReturn(false);
-
-        // when
-        // then
-        assertThatThrownBy(() -> payloadService.createPayload(payload))
-                .isInstanceOf(DroneNotFoundException.class)
-                .hasMessageContaining("Drone does not exist");
-
-        verify(payloadRepository, never()).save(any());
-    }
-
-    @Test
     void willThrowExceptionIfTheMedicationDoesntExists() {
         // given
         Drone drone = new Drone(1L,"qwer1234", Drone.ModelType.Cruiserweight,50,
@@ -123,8 +98,8 @@ class PayloadServiceTest {
         payloadItemList.add(payloadItem);
         payload.setPayloadItems(payloadItemList);
 
-        given(droneRepository.existsById(payload.getDrone().getId()))
-                .willReturn(true);
+        given(droneService.getDroneById(payload.getDrone().getId()))
+                .willReturn(drone);
 
         for (PayloadItem p: payload.getPayloadItems()){
             given(medicationRepository.existsById(p.getMedication().getId()))

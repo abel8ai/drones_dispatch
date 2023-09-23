@@ -54,6 +54,8 @@ public class DroneServiceImpl implements DroneService {
         Optional<Drone> droneOptional = droneRepository.findDroneBySerialNumber(drone.getSerialNumber());
         if (droneOptional.isPresent())
             throw new BadRequestException("Serial number already exists");
+        if (!isValidData(drone))
+            throw new BadRequestException("Invalid drone data");
         return droneRepository.save(drone);
     }
 
@@ -97,6 +99,16 @@ public class DroneServiceImpl implements DroneService {
 
             return medications;
         }
+    }
+    public boolean isValidData(Drone drone){
+        if (drone.getSerialNumber().length()>100)
+            return false;
+        if (drone.getWeighLimit()>500)
+            return false;
+        if (drone.getBatteryCapacity()>100)
+            return false;
+
+        return true;
     }
 
 

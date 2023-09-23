@@ -39,6 +39,8 @@ public class MedicationServiceImpl implements MedicationService {
         Optional<Medication> medOptional = medicationRepository.findMedicationByCode(medication.getCode());
         if (medOptional.isPresent())
             throw new BadRequestException("Code already exists");
+        if (!isValidData(medication))
+            throw new BadRequestException("Invalid medication data");
         return medicationRepository.save(medication);
     }
 
@@ -47,5 +49,14 @@ public class MedicationServiceImpl implements MedicationService {
         if (!medicationRepository.existsById(id))
             throw new MedicationNotFoundException("Incorrect ID");
         medicationRepository.deleteById(id);
+    }
+
+    public boolean isValidData(Medication medication){
+        if (!medication.getName().matches("^[A-Za-z0-9\\-_]+$"))
+            return false;
+        if (!medication.getCode().matches("^[A-Z0-9_]+$"))
+            return false;
+
+        return true;
     }
 }

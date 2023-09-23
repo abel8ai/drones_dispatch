@@ -1,11 +1,14 @@
 package com.abel.drones.service.impl;
 
+import com.abel.drones.entities.Drone;
 import com.abel.drones.entities.Payload;
 import com.abel.drones.entities.PayloadItem;
 import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.repository.MedicationRepository;
 import com.abel.drones.repository.PayloadRepository;
+import com.abel.drones.service.DroneService;
 import com.abel.drones.service.PayloadService;
+import com.abel.drones.service.exceptions.BadRequestException;
 import com.abel.drones.service.exceptions.DroneNotFoundException;
 import com.abel.drones.service.exceptions.MedicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +20,14 @@ import java.util.List;
 public class PayloadServiceImpl implements PayloadService {
 
     private PayloadRepository payloadRepository;
-    private DroneRepository droneRepository;
+    private DroneService droneService;
     private MedicationRepository medicationRepository;
 
     @Autowired
-    public PayloadServiceImpl(PayloadRepository payloadRepository, DroneRepository droneRepository,
+    public PayloadServiceImpl(PayloadRepository payloadRepository, DroneService droneService,
                               MedicationRepository medicationRepository) {
         this.payloadRepository = payloadRepository;
-        this.droneRepository = droneRepository;
+        this.droneService = droneService;
         this.medicationRepository = medicationRepository;
     }
     @Override
@@ -34,14 +37,20 @@ public class PayloadServiceImpl implements PayloadService {
 
     @Override
     public Payload createPayload(Payload payload) {
-
-        if (!droneRepository.existsById(payload.getDrone().getId()))
-            throw new DroneNotFoundException("Drone does not exist");
+        Drone drone = droneService.getDroneById(payload.getDrone().getId());
+        if (drone.getBatteryCapacity()<25)
+            throw new BadRequestException("Drone's battery is to low");
+        droneService.changeDroneState(drone.getId(), Drone.StateType.LOADING);
+        double totalWeight = 0;
         for (PayloadItem p: payload.getPayloadItems()){
-
+            totalWeight+=p.getQuantity()*p.getMedication().getWeight();
             if (!medicationRepository.existsById(p.getMedication().getId()))
                 throw new MedicationNotFoundException("Medication does not exist");
         }
+
+        if (totalWeight > payload.getDrone().getWeighLimit())
+            throw new BadRequestException("Weight limit exceeded");
+        droneService.changeDroneState(drone.getId(), Drone.StateType.LOADED);
         return payloadRepository.save(payload);
     }
 }
