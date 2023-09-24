@@ -75,7 +75,14 @@ public class DroneServiceImpl implements DroneService {
             throw new DroneNotFoundException("Incorrect ID");
         else {
             Optional<Drone> droneOptional = droneRepository.findById(id);
-            droneOptional.ifPresent(drone -> drone.setState(state));
+            if (droneOptional.isPresent()){
+                Drone drone = droneOptional.get();
+                // check battery level to change state to LOADING
+                if (drone.getBatteryCapacity()<25 && state == Drone.StateType.LOADING)
+                    throw new BadRequestException("Drone's battery is to low to load");
+                drone.setState(state);
+            }
+
         }
     }
 
