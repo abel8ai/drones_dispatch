@@ -4,6 +4,7 @@ import com.abel.drones.entities.Drone;
 import com.abel.drones.entities.Payload;
 import com.abel.drones.entities.PayloadItem;
 import com.abel.drones.repository.MedicationRepository;
+import com.abel.drones.repository.PayloadItemRepository;
 import com.abel.drones.repository.PayloadRepository;
 import com.abel.drones.service.DroneService;
 import com.abel.drones.service.PayloadService;
@@ -20,13 +21,15 @@ public class PayloadServiceImpl implements PayloadService {
     private PayloadRepository payloadRepository;
     private DroneService droneService;
     private MedicationRepository medicationRepository;
+    private PayloadItemRepository payloadItemRepository;
 
     @Autowired
     public PayloadServiceImpl(PayloadRepository payloadRepository, DroneService droneService,
-                              MedicationRepository medicationRepository) {
+                              MedicationRepository medicationRepository,PayloadItemRepository payloadItemRepository) {
         this.payloadRepository = payloadRepository;
         this.droneService = droneService;
         this.medicationRepository = medicationRepository;
+        this.payloadItemRepository = payloadItemRepository;
     }
     @Override
     public List<Payload> getAllPayloads() {
@@ -50,7 +53,15 @@ public class PayloadServiceImpl implements PayloadService {
         if (totalWeight > payload.getDrone().getWeighLimit())
             throw new BadRequestException("Weight limit exceeded");
         payload.setStatus(Payload.StatusType.ON_ROUTE);
+
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADED);
-        return payloadRepository.save(payload);
+        payload = payloadRepository.save(payload);
+
+        for (PayloadItem p: payload.getPayloadItems()){
+            p.setPayload(payload);
+            payloadItemRepository.save(p);
+        }
+        return payload;
+
     }
 }

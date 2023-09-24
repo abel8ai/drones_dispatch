@@ -1,6 +1,5 @@
 package com.abel.drones.repository;
 
-import com.abel.drones.entities.Drone;
 import com.abel.drones.entities.Medication;
 import org.springframework.data.jpa.repository.JpaRepository;
 

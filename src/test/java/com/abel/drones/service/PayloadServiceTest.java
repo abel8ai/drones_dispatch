@@ -6,6 +6,7 @@ import com.abel.drones.entities.Payload;
 import com.abel.drones.entities.PayloadItem;
 import com.abel.drones.repository.DroneRepository;
 import com.abel.drones.repository.MedicationRepository;
+import com.abel.drones.repository.PayloadItemRepository;
 import com.abel.drones.repository.PayloadRepository;
 import com.abel.drones.service.exceptions.DroneNotFoundException;
 import com.abel.drones.service.exceptions.MedicationNotFoundException;
@@ -35,13 +36,15 @@ class PayloadServiceTest {
     private MedicationRepository medicationRepository;
     @Mock
     private DroneService droneService;
+    @Mock
+    private PayloadItemRepository payloadItemRepository;
 
     private PayloadService payloadService;
 
 
     @BeforeEach
     void setUp() {
-        payloadService = new PayloadServiceImpl(payloadRepository,droneService,medicationRepository);
+        payloadService = new PayloadServiceImpl(payloadRepository,droneService,medicationRepository, payloadItemRepository);
     }
 
 
