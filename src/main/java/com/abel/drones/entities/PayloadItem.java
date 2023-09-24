@@ -28,9 +28,8 @@ public class PayloadItem {
 
     private int quantity;
 
-    public PayloadItem(Long id, Payload payload, Medication medication, int quantity) {
+    public PayloadItem(Long id,Medication medication, int quantity) {
         this.id = id;
-        this.payload = payload;
         this.medication = medication;
         this.quantity = quantity;
     }

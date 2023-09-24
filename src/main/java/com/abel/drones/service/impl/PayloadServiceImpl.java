@@ -55,10 +55,10 @@ public class PayloadServiceImpl implements PayloadService {
         payload.setStatus(Payload.StatusType.ON_ROUTE);
 
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADED);
-        payload = payloadRepository.save(payload);
+        Payload insertedPayload = payloadRepository.save(payload);
 
         for (PayloadItem p: payload.getPayloadItems()){
-            p.setPayload(payload);
+            p.setPayload(insertedPayload);
             payloadItemRepository.save(p);
         }
         return payload;
