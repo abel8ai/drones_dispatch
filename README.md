@@ -59,13 +59,14 @@ api/v2/medications/{id}/remove - Delete a medication
 
 
 **PAYLOADS**
+
 *GET*
 
-api/v2/payloads - get all payloads
+api/v2/payloads - Get all payloads
 
 *POST*
 
-api/v2/payloads/create - create a new payload
+api/v2/payloads/create - Create a new payload
 
 To test these endpoints please refer to this postman
 collection, where all the parameters are set
