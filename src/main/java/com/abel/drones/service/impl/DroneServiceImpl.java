@@ -86,12 +86,16 @@ public class DroneServiceImpl implements DroneService {
         if (!droneOptional.isPresent())
             throw new DroneNotFoundException("Incorrect ID");
         else {
+
             Drone drone = droneOptional.get();
+            // get only the ON_ROUTE payload for the given drone, any other payload would be completed
             Optional<Payload> payloadOptional = drone.getPayloads().stream()
                     .filter(p -> p.getStatus() == Payload.StatusType.ON_ROUTE).findFirst();
             if (!payloadOptional.isPresent())
+                // if there are no ON_ROUTE payloads the drone is not loaded, returns an empty list
                 return medications;
             else {
+                // populate the list with the medications from the payload
                 for (PayloadItem p : payloadOptional.get().getPayloadItems()){
                     medications.add(p.getMedication());
                 }

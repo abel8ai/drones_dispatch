@@ -39,22 +39,27 @@ public class PayloadServiceImpl implements PayloadService {
     @Override
     public Payload createPayload(Payload payload) {
         Drone drone = droneService.getDroneById(payload.getDrone().getId());
+        // verify battery level before loading the drone
         if (drone.getBatteryCapacity()<25)
             throw new BadRequestException("Drone's battery is too low");
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADING);
+
         double totalWeight = 0;
         for (PayloadItem p: payload.getPayloadItems()){
             if (!medicationRepository.existsById(p.getMedication().getId()))
                 throw new MedicationNotFoundException("Medication does not exist");
+            // calculate the total weight of the payload
             totalWeight+=p.getQuantity()*p.getMedication().getWeight();
 
         }
-
+        // verify if the drone can carry the payload
         if (totalWeight > payload.getDrone().getWeighLimit())
             throw new BadRequestException("Weight limit exceeded");
         payload.setStatus(Payload.StatusType.ON_ROUTE);
 
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADED);
+
+        // save the payload and the payload items to db
         Payload insertedPayload = payloadRepository.save(payload);
 
         for (PayloadItem p: payload.getPayloadItems()){
