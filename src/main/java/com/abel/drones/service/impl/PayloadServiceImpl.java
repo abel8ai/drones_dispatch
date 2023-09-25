@@ -40,7 +40,9 @@ public class PayloadServiceImpl implements PayloadService {
     public Payload createPayload(Payload payload) {
         Drone drone = droneService.getDroneById(payload.getDrone().getId());
         droneService.changeDroneState(drone.getId(), Drone.StateType.LOADING);
-
+        // check drone availability
+        if(drone.getState()!= Drone.StateType.IDLE)
+            throw new BadRequestException("The selected drone is not available");
         double totalWeight = 0;
         for (PayloadItem p: payload.getPayloadItems()){
             if (!medicationRepository.existsById(p.getMedication().getId()))

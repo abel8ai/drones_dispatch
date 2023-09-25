@@ -58,6 +58,7 @@ class PayloadServiceTest {
         // given
         Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
                 100);
+        drone.setState(Drone.StateType.IDLE);
         Payload payload = new Payload(1L, Payload.StatusType.ON_ROUTE, drone);
         Medication medication = new Medication("med1", 4,"JHKJHK","dcfdfsdf");
         PayloadItem payloadItem = new PayloadItem(1L,medication,3);
@@ -94,6 +95,7 @@ class PayloadServiceTest {
         // given
         Drone drone = new Drone("qwer1234", Drone.ModelType.Cruiserweight,50,
                 100);
+        drone.setState(Drone.StateType.IDLE);
         Payload payload = new Payload(1L, Payload.StatusType.ON_ROUTE, drone);
         Medication medication = new Medication("med1", 4,"HJKJHK","dcfdfsdf");
         PayloadItem payloadItem = new PayloadItem(1L,medication,3);
