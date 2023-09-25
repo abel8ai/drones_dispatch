@@ -7,9 +7,15 @@ that allows to manage a drone fleet used to deliver medications.
 For this purpose the application y comprised of a set of 
 endpoints that allow the necessary functionalities.
 
-**----------ENDPOINTS DESCRIPTION-------------**
+The API is deployed in a .jar file and uses an in-memory 
+database, the only requirement to run it is to have the java virtual
+machine installed. You can download the .jar file here:
 
-**DRONES**
+https://drive.google.com/file/d/1-CG8McbtvQkfjS6o2eEtEoRXgkZQYqDe/view?usp=sharing
+
+**- - - - - - - - - - - - -  ENDPOINTS DESCRIPTION - - - - - - - - - - - - -**
+
+###**DRONES**
 
 *GET*
 
@@ -28,6 +34,10 @@ api/v2/drones/idle - Get a list of available drones to load
 
 api/v2/drones/create - Register a new drone
 
+To create a drone is necessary to provide a 
+json body with (serial number, model, weight limit,
+battery capacity)
+
 *DELETE*
 
 api/v2/drones/{id}/remove - Delete a drone
@@ -40,8 +50,7 @@ possible drone states
 
 (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)
 
-
-**MEDICATIONS**
+###**MEDICATIONS**
 
 *GET*
 
@@ -53,18 +62,25 @@ api/v2/medications/{id} - Get medication by id
 
 api/v2/medications/create - add a new medication
 
+To add a new medication is necessary to provide a 
+json body with (name, weight, code, image url)
+
 *DELETE*
 
 api/v2/medications/{id}/remove - Delete a medication
 
 
-**PAYLOADS**
+###**PAYLOADS**
 
 *GET*
 
 api/v2/payloads - Get all payloads
 
 *POST*
+
+To create a payload is necessary to have an existing 
+available drone and an existing medication. It is also 
+necessary to provide a json body with (droneId and a list comprised of the medication id and the quantity for that medication)
 
 api/v2/payloads/create - Create a new payload
 
