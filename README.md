@@ -28,6 +28,10 @@ api/v2/drones/idle - Get a list of available drones to load
 
 api/v2/drones/create - Register a new drone
 
+To create a drone is necessary to provide a 
+json body with (serial number, model, weight limit,
+battery capacity)
+
 *DELETE*
 
 api/v2/drones/{id}/remove - Delete a drone
@@ -53,6 +57,9 @@ api/v2/medications/{id} - Get medication by id
 
 api/v2/medications/create - add a new medication
 
+To add a new medication is necessary to provide a 
+json body with (name, weight, code, image url)
+
 *DELETE*
 
 api/v2/medications/{id}/remove - Delete a medication
@@ -65,6 +72,10 @@ api/v2/medications/{id}/remove - Delete a medication
 api/v2/payloads - Get all payloads
 
 *POST*
+
+To create a payload is necessary to have an existing 
+available drone and an existing medication. It is also 
+necessary to provide a json body with (droneId and a list comprised of the medication id and the quantity for that medication)
 
 api/v2/payloads/create - Create a new payload
 
