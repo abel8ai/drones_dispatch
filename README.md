@@ -7,9 +7,15 @@ that allows to manage a drone fleet used to deliver medications.
 For this purpose the application y comprised of a set of 
 endpoints that allow the necessary functionalities.
 
-**----------ENDPOINTS DESCRIPTION-------------**
+The API is deployed in a .jar file and uses an in-memory 
+database, the only requirement to run it is to have the java virtual
+machine installed. You can download the .jar file here:
 
-**DRONES**
+https://drive.google.com/file/d/1-CG8McbtvQkfjS6o2eEtEoRXgkZQYqDe/view?usp=sharing
+
+**- - - - - - - - - - - - -  ENDPOINTS DESCRIPTION - - - - - - - - - - - - -**
+
+###**DRONES**
 
 *GET*
 
@@ -44,8 +50,7 @@ possible drone states
 
 (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)
 
-
-**MEDICATIONS**
+###**MEDICATIONS**
 
 *GET*
 
@@ -65,7 +70,7 @@ json body with (name, weight, code, image url)
 api/v2/medications/{id}/remove - Delete a medication
 
 
-**PAYLOADS**
+###**PAYLOADS**
 
 *GET*
 
